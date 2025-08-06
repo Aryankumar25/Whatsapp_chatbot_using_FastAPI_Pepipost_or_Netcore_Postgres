@@ -114,6 +114,7 @@ async def webhook(request: Request):
         await send_message(user_number, "Something went wrong")
         return {"message":"something went wrong"}
 
-    finally:db.close()
+    finally:
+        db.close()
 
     return {"status": "Success"}

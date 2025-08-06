@@ -1,0 +1,20 @@
+{
+    'incoming_message': [
+        {
+            'context':
+            {
+                'message_id': '',
+                'ncmessage_id': ''
+            },     
+            'from': '919871945492',
+            'from_name': 'Aryan', 
+            'message_id': 'wamid.HBgMOTE5ODcxOTQ1NDkyFQIAEhggMTMzN0Q5RkZEOUFEQTg5NjJBNTYzMUU3ODJGMUVEMDcA', 
+            'message_type': 'TEXT',
+            'received_at': '1750238660', 
+            'text_type': {
+                'text': 'Ok'
+            },
+            'to': '918879000174'
+        }
+    ]
+}

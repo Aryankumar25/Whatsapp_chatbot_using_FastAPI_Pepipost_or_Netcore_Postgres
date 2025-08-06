@@ -1,0 +1,54 @@
+name: build and deploy fastapi app
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-deploy:
+    name: Build and deploty fastapi boot for beginner
+    run-on: ubunutu-latest
+
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: test_db
+          ports:
+            - 5432:5432
+          options:>-
+            --health-cmd pg_isready
+            --health-interval 10s
+            --health-timeout 5s
+            --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+       
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.13.5'
+
+      - name: Install dependencies
+        run: 
+          python -m pip install --upgrade pip
+          pip install fastapi[standard] uvicorn[standard] sqlalchemy asyncpg psycopg2-binary python-dotenv httpx pyngrok
+
+      - name: Wait for PostgreSQL to be ready
+        run:
+          until pg_isready -h localhost -p 5432 -U postgres; do
+            echo "Waiting for postgres..."
+            sleep 2
+          done
+
+      - name: Build the application
+        env: 
+          DATABASE_URL: postgresql://postgres:password@localhost:5432/message_logs
+        run:
+          # Put your test command here. If using pytest:
+          fastapi dev main.py
